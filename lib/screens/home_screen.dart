@@ -3,7 +3,6 @@ import 'package:covid/screens/countries_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:covid/constants.dart';
-import 'package:covid/components/country_monitoring_box.dart';
 import 'package:covid/components/info_box.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -40,7 +39,7 @@ class _HomeState extends State<Home> {
         numberOfCountries = countries.length;
       });
     } else {
-      print(response.statusCode);
+      print('Server Error:${response.statusCode}');
     }
   }
 
@@ -65,10 +64,11 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top:8.0),
+                    padding: EdgeInsets.only(top: 8.0),
                     child: Text(
                       'Global',
-                      style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 15),
@@ -126,15 +126,7 @@ class _HomeState extends State<Home> {
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  CountryMonitoringBox(
-                    country: 'Rwanda',
-                    numberOfCases: 7,
-                  ),
-                  CountryMonitoringBox(country: 'Sudan'),
-                  CountryMonitoringBox(
-                    country: 'China',
-                    numberOfCases: 8000,
-                  ),
+                  // PinnedCountries(),
                 ],
               ),
             ],
