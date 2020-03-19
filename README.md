@@ -1,6 +1,6 @@
 # COVID
 
-A COVID-19 live tracking mobile app built with [Flutter](https://flutter.dev/); the API is a fork from https://github.com/NovelCOVID/API
+A COVID-19 live tracking mobile app built with [Flutter](https://flutter.dev/).<br/> The API is a fork from https://github.com/NovelCOVID/API
 
 ## Required softwares
  - [Dart SDK](https://dart.dev/get-dart)
