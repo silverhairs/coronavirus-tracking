@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'package:covid/components/country_monitoring_box.dart';
+import 'package:covid/components/following_list.dart';
+import 'package:covid/providers/following_data.dart';
 import 'package:covid/screens/countries_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:covid/constants.dart';
 import 'package:covid/components/info_box.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -121,12 +125,12 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 25),
                     child: Text(
-                      'Pinned Countries',
+                      'Countries I follow',
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  // PinnedCountries(),
+                  FollowingList()
                 ],
               ),
             ],
