@@ -6,6 +6,7 @@ A COVID-19 live tracking mobile app built with [Flutter](https://flutter.dev/); 
  - [Dart SDK](https://dart.dev/get-dart)
  - [Flutter](flutter.dev)
  - [Android Studio](https://developer.android.com/studio/install)
+ ##### PS: You can use any other IDE like [Visual Studio Code](https://code.visualstudio.com/) but running the app on an emulator requires Android Studio
 
 ## Dependencies
  - font_awesome_flutter: ^8.7.0
