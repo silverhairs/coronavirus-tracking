@@ -1,8 +1,11 @@
 import 'package:covid/extensions/string_extension.dart';
+import 'package:covid/providers/following.dart';
+import 'package:covid/providers/following_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:covid/constants.dart';
+import 'package:provider/provider.dart';
 
 bool isPinned = false;
 bool isSearching = false;
@@ -24,6 +27,50 @@ class _CountriesState extends State<Countries> {
           (country) => country['country'] == value,
         )
         .toList();
+  }
+
+  GestureDetector searchBarCollapse() {
+    GestureDetector displayedIcon;
+    if (isSearching) {
+      displayedIcon = GestureDetector(
+        child: Icon(
+          Icons.cancel,
+          color: Colors.white,
+        ),
+        onTap: () {
+          setState(() {
+            isSearching = !isSearching;
+            filteredCountries = widget.countriesList;
+          });
+        },
+      );
+    } else {
+      displayedIcon = GestureDetector(
+        child: Icon(
+          Icons.search,
+          color: Colors.white,
+        ),
+        onTap: () {
+          setState(() {
+            isSearching = !isSearching;
+          });
+        },
+      );
+    }
+    return displayedIcon;
+  }
+
+  Icon followIconHandler(String country) {
+    Icon followIcon;
+    for (var following in Provider.of<FollowingData>(context).followings) {
+      if (country == following.country) {
+        followIcon = Icon(Icons.check, color: Colors.blue);
+      } else {
+        followIcon =
+            Icon(FontAwesomeIcons.thumbtack, color: Colors.white, size: 20);
+      }
+    }
+    return followIcon;
   }
 
   @override
@@ -51,6 +98,7 @@ class _CountriesState extends State<Countries> {
                     SizedBox(width: 15),
                     Expanded(
                       child: TextField(
+                        autofocus: true,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Search country...',
                         ),
@@ -72,94 +120,72 @@ class _CountriesState extends State<Countries> {
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              icon: Hero(
-                child: Icon(isSearching ? Icons.cancel : Icons.search,
-                    color: Colors.white),
-                tag: 'search',
-              ),
-              onPressed: () {
-                setState(() {
-                  isSearching = !isSearching;
-                });
-              },
-            ),
+            child: searchBarCollapse(),
           )
         ],
       ),
-      body: widget.countriesList == null
-          ? SpinKitFadingCircle(
-              itemBuilder: (BuildContext context, int index) {
-                return DecoratedBox(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredCountries.length,
+              itemBuilder: (context, index) {
+                var country = filteredCountries[index];
+                return Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: index.isEven ? Colors.red : Colors.green,
+                      color: kBoxColor, borderRadius: kBoxesRadius),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            country['country'].toUpperCase(),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                            textAlign: TextAlign.center,
+                          ),
+                          IconButton(
+                            icon: followIconHandler(country['country']),
+                            onPressed: () {
+                              var newFollow = Following(
+                                  cases: country['cases'],
+                                  country: country['country']);
+                              Provider.of<FollowingData>(context, listen: false)
+                                  .follow(newFollow);
+                            },
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Divider(color: Colors.white, thickness: .5),
+                      SizedBox(height: 15),
+                      Text('Total cases: ${country['cases']}',
+                          style: TextStyle(fontSize: 18)),
+                      Text('Today cases: ${country['todayCases']}',
+                          style: TextStyle(fontSize: 18)),
+                      Text('Total deaths: ${country['deaths']}',
+                          style: TextStyle(fontSize: 18)),
+                      Text('Today deaths: ${country['todayDeaths']}',
+                          style: TextStyle(fontSize: 18)),
+                      Text('Recovered: ${country['recovered']}',
+                          style: TextStyle(fontSize: 18)),
+                      Text('In critical state: ${country['critical']}',
+                          style: TextStyle(fontSize: 18)),
+                    ],
                   ),
                 );
               },
-            )
-          : Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: filteredCountries.length,
-                    itemBuilder: (context, index) {
-                      var country = filteredCountries[index];
-                      return Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.all(15),
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                            color: kBoxColor, borderRadius: kBoxesRadius),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  country['country'].toUpperCase(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22),
-                                  textAlign: TextAlign.center,
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    FontAwesomeIcons.thumbtack,
-                                    color: isPinned ? Colors.blue : Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      isPinned = !isPinned;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                            Divider(color: Colors.white, thickness: .5),
-                            SizedBox(height: 15),
-                            Text('Total cases: ${country['cases']}',
-                                style: TextStyle(fontSize: 18)),
-                            Text('Today cases: ${country['todayCases']}',
-                                style: TextStyle(fontSize: 18)),
-                            Text('Total deaths: ${country['deaths']}',
-                                style: TextStyle(fontSize: 18)),
-                            Text('Today deaths: ${country['todayDeaths']}',
-                                style: TextStyle(fontSize: 18)),
-                            Text('Recovered: ${country['recovered']}',
-                                style: TextStyle(fontSize: 18)),
-                            Text('In critical state: ${country['critical']}',
-                                style: TextStyle(fontSize: 18)),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
             ),
+          ),
+        ],
+      ),
     );
   }
 }
