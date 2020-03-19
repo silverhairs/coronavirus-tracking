@@ -2,7 +2,6 @@ import 'package:covid/extensions/string_extension.dart';
 import 'package:covid/providers/following.dart';
 import 'package:covid/providers/following_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:covid/constants.dart';
 import 'package:provider/provider.dart';
@@ -106,7 +105,8 @@ class _CountriesState extends State<Countries> {
                           setState(() {
                             value == ''
                                 ? filteredCountries = widget.countriesList
-                                : findCountry(value);
+                                : findCountry(
+                                    (value.toLowerCase()).capitalize());
                           });
                         },
                       ),
@@ -152,11 +152,12 @@ class _CountriesState extends State<Countries> {
                             textAlign: TextAlign.center,
                           ),
                           IconButton(
-                            icon: followIconHandler(country['country']),
+                            icon: Icon(Icons.add),
                             onPressed: () {
                               var newFollow = Following(
                                   cases: country['cases'],
                                   country: country['country']);
+
                               Provider.of<FollowingData>(context, listen: false)
                                   .follow(newFollow);
                             },
