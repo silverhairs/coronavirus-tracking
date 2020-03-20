@@ -13,6 +13,7 @@ class CoronaVirusApp extends StatelessWidget {
       child: MaterialApp(
         home: Home(),
         theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

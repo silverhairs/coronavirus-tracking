@@ -1,7 +1,6 @@
 import 'package:covid/extensions/string_extension.dart';
 import 'package:covid/providers/following_data.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:covid/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:covid/providers/following.dart';
@@ -25,9 +24,11 @@ class _CountriesState extends State<Countries> {
           (country) => country['country'] == value,
         )
         .toList();
+    // assign the displayed list of countries to the value entered into the searchbar
   }
 
-  GestureDetector searchBarCollapse() {
+// toggle appbar icon
+  GestureDetector toggleAppBarIcon() {
     GestureDetector displayedIcon;
     if (isSearching) {
       displayedIcon = GestureDetector(
@@ -39,6 +40,7 @@ class _CountriesState extends State<Countries> {
           setState(() {
             isSearching = !isSearching;
             filteredCountries = widget.countriesList;
+            // reassign filteredCountries to the initial value when the searchbar is collapsed
           });
         },
       );
@@ -58,22 +60,10 @@ class _CountriesState extends State<Countries> {
     return displayedIcon;
   }
 
-  Icon followIconHandler(String country) {
-    Icon followIcon;
-    for (var following in Provider.of<FollowingData>(context).followings) {
-      if (country == following.country) {
-        followIcon = Icon(Icons.check, color: Colors.blue);
-      } else {
-        followIcon =
-            Icon(FontAwesomeIcons.thumbtack, color: Colors.white, size: 20);
-      }
-    }
-    return followIcon;
-  }
-
   @override
   void initState() {
     filteredCountries = widget.countriesList;
+    // assign countriesList to a mutable variable so that I can edit it when changing states
     super.initState();
   }
 
@@ -119,7 +109,7 @@ class _CountriesState extends State<Countries> {
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 8.0),
-            child: searchBarCollapse(),
+            child: toggleAppBarIcon(),
           )
         ],
       ),
@@ -140,11 +130,10 @@ class _CountriesState extends State<Countries> {
   }
 }
 
-
 class CountryDetails extends StatelessWidget {
   CountryDetails({@required this.country});
 
-  final dynamic country;
+  final Map country;
 
   @override
   Widget build(BuildContext context) {
