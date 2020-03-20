@@ -14,7 +14,7 @@ class WhoAdvice extends StatelessWidget {
         child: Container(
           child: FutureBuilder(
             future: DefaultAssetBundle.of(context)
-                .loadString("assets/data/text.md"),
+                .loadString("assets/docs/protective_measures.md"),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
                 return Markdown(
