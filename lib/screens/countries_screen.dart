@@ -64,6 +64,9 @@ class _CountriesState extends State<Countries> {
   void initState() {
     filteredCountries = widget.countriesList;
     // assign countriesList to a mutable variable so that I can edit it when changing states
+    filteredCountries.forEach((country) {
+      country['isFollowed'] = false;
+    });
     super.initState();
   }
 
@@ -120,7 +123,14 @@ class _CountriesState extends State<Countries> {
               itemCount: filteredCountries.length,
               itemBuilder: (context, index) {
                 var country = filteredCountries[index];
-                return CountryDetails(country: country);
+                return CountryDetails(
+                  country: country,
+                  follow: () {
+                    setState(() {
+                      country['isFollowed'] = !country['isFollowed'];
+                    });
+                  },
+                );
               },
             ),
           ),
@@ -131,9 +141,10 @@ class _CountriesState extends State<Countries> {
 }
 
 class CountryDetails extends StatelessWidget {
-  CountryDetails({@required this.country});
+  CountryDetails({@required this.country, @required this.follow});
 
   final Map country;
+  final Function follow;
 
   @override
   Widget build(BuildContext context) {
@@ -157,8 +168,14 @@ class CountryDetails extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               IconButton(
-                icon: Icon(Icons.add),
+                icon: !country['isFollowed']
+                    ? Icon(Icons.add)
+                    : Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ),
                 onPressed: () {
+                  follow();
                   var newFollow = Following(
                     cases: country['cases'],
                     country: country['country'],
@@ -167,10 +184,12 @@ class CountryDetails extends StatelessWidget {
                     recovered: country['recovered'],
                     todayCases: country['todayCases'],
                     todayDeaths: country['todayDeaths'],
+                    isFollowed: country['isFollowed'],
                   );
-
-                  Provider.of<FollowingData>(context, listen: false)
-                      .follow(newFollow);
+                  if (country['isFollowed']) {
+                    Provider.of<FollowingData>(context, listen: false)
+                        .follow(newFollow);
+                  }
                 },
               )
             ],

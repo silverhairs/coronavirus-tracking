@@ -6,6 +6,7 @@ class Following {
   int todayDeaths;
   int recovered;
   int critical;
+  bool isFollowed;
   Following({
     this.cases,
     this.country,
@@ -14,5 +15,6 @@ class Following {
     this.recovered,
     this.todayCases,
     this.todayDeaths,
+    this.isFollowed,
   });
 }
