@@ -2,6 +2,20 @@
 
 A COVID-19 live tracking mobile app built with [Flutter](https://flutter.dev/).<br/> The API is a fork from https://github.com/NovelCOVID/API
 
+## Screenshots
+<p float="left">
+  <img src="https://github.com/silverhairs/coronavirus-tracking/blob/master/screenshots/home.png" width="250" />
+  <img src="https://github.com/silverhairs/coronavirus-tracking/blob/master/screenshots/countries.png" width="250" /> 
+  <img src="https://github.com/silverhairs/coronavirus-tracking/blob/master/screenshots/search.png" width="250" /> 
+</p>
+<p float="left">
+  <img src="https://github.com/silverhairs/coronavirus-tracking/blob/master/screenshots/country.png" width="250" />
+  <img src="https://github.com/silverhairs/coronavirus-tracking/blob/master/screenshots/unfollow.png" width="250" /> 
+  <img src="https://github.com/silverhairs/coronavirus-tracking/blob/master/screenshots/protection.png" width="250" /> 
+</p>
+
+
+
 ## Required softwares
  - [Dart SDK](https://dart.dev/get-dart)
  - [Flutter](flutter.dev)
