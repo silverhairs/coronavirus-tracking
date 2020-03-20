@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:covid/screens/who_advice.dart';
 import 'package:covid/components/following_list.dart';
 import 'package:covid/screens/countries_screen.dart';
 import 'package:flutter/material.dart';
@@ -118,6 +119,34 @@ class _HomeState extends State<Home> {
                         icon: Icon(Icons.check, color: Colors.white),
                       ),
                     ],
+                  ),
+                  SizedBox(height: 25),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical:5),
+                    decoration: BoxDecoration(
+                      color: kBoxColor,
+                      borderRadius: kBoxesRadius,
+                    ),
+                    child: ListTile(
+                      leading: Icon(
+                        FontAwesomeIcons.readme,
+                        color: Colors.blue,
+                      ),
+                      title: Text(
+                        'Protective measures',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      subtitle: Text(
+                        'Protective measures against the coronavirus',
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => WhoAdvice()),
+                        );
+                      },
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 25),
