@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class WhoAdvice extends StatelessWidget {
+  final bool isDark;
+  WhoAdvice(this.isDark);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('Protective measures'),
       ),
@@ -21,9 +23,20 @@ class WhoAdvice extends StatelessWidget {
                   data: snapshot.data,
                   styleSheet: MarkdownStyleSheet(
                     textAlign: WrapAlignment.start,
-                    p: TextStyle(fontSize: 16),
-                    h2: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    h1: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    p: TextStyle(
+                      fontSize: 16,
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
+                    h2: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
+                    h1: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
                   ),
                 );
               }

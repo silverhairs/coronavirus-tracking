@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 class Country extends StatelessWidget {
   final Following country;
-  Country({@required this.country});
+  final bool isDark;
+  Country({@required this.isDark, @required this.country});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(country.country),
       ),
@@ -18,7 +19,7 @@ class Country extends StatelessWidget {
             margin: EdgeInsets.all(15),
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: kBoxColor,
+              color: isDark ? kBoxDarkColor : kBoxLightColor,
               borderRadius: kBoxesRadius,
             ),
             child: Column(
@@ -27,7 +28,7 @@ class Country extends StatelessWidget {
                   'General',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                Divider(color: Colors.grey, thickness: .3),
+                Divider(thickness: .3, color: Colors.blueGrey[200]),
                 SizedBox(height: 15),
                 Text(
                   'Cases: ${country.cases}\nDeceased: ${country.deaths}\nHealed: ${country.recovered}\nCritical cases: ${country.critical}',
@@ -38,7 +39,7 @@ class Country extends StatelessWidget {
                   'Today',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                Divider(color: Colors.grey, thickness: .1),
+                Divider(thickness: .1, color: Colors.blueGrey[200]),
                 SizedBox(height: 15),
                 Text(
                   'Cases: ${country.todayCases}\nDeceased: ${country.todayDeaths}',

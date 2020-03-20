@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'country_following_box.dart';
 
 class FollowingList extends StatelessWidget {
+  final bool isDark;
+  FollowingList(this.isDark);
   @override
   Widget build(BuildContext context) {
     return Consumer<FollowingData>(builder: (context, followingData, child) {
@@ -13,12 +15,18 @@ class FollowingList extends StatelessWidget {
       return Column(
         children: followings.map((following) {
           return CountryMonitoringBox(
+            isDark: isDark,
             country: following.country,
             numberOfCases: following.cases,
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Country(country:following)),
+                MaterialPageRoute(
+                  builder: (context) => Country(
+                    country: following,
+                    isDark: isDark,
+                  ),
+                ),
               );
             },
             onLongPress: () => showDialog<void>(
@@ -28,7 +36,7 @@ class FollowingList extends StatelessWidget {
                 return AlertDialog(
                   elevation: 3,
                   shape: RoundedRectangleBorder(borderRadius: kBoxesRadius),
-                  backgroundColor: Colors.blueGrey[900],
+                  backgroundColor: isDark ? Colors.blueGrey[900] : Colors.white,
                   title: Text('Unfollow'),
                   content: Text(
                       'Remove ${following.country.toUpperCase()} from the following list?'),

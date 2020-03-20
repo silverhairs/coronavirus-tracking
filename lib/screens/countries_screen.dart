@@ -9,8 +9,9 @@ bool isPinned = false;
 bool isSearching = false;
 
 class Countries extends StatefulWidget {
-  Countries({this.countriesList});
+  Countries({this.countriesList, this.isDark});
   final List countriesList;
+  final bool isDark;
   @override
   _CountriesState createState() => _CountriesState();
 }
@@ -34,7 +35,6 @@ class _CountriesState extends State<Countries> {
       displayedIcon = GestureDetector(
         child: Icon(
           Icons.cancel,
-          color: Colors.white,
         ),
         onTap: () {
           setState(() {
@@ -48,7 +48,6 @@ class _CountriesState extends State<Countries> {
       displayedIcon = GestureDetector(
         child: Icon(
           Icons.search,
-          color: Colors.white,
         ),
         onTap: () {
           setState(() {
@@ -73,19 +72,18 @@ class _CountriesState extends State<Countries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         title: isSearching
             ? Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
-                  color: kBoxColor,
+                  color: widget.isDark ? kBoxDarkColor : Colors.grey[100],
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.search, color: Colors.white),
+                    Icon(Icons.search),
                     SizedBox(width: 15),
                     Expanded(
                       child: TextField(
@@ -108,7 +106,6 @@ class _CountriesState extends State<Countries> {
               )
             : Text('Affected Countries'),
         centerTitle: true,
-        backgroundColor: Colors.black,
         actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 8.0),
@@ -124,6 +121,7 @@ class _CountriesState extends State<Countries> {
               itemBuilder: (context, index) {
                 var country = filteredCountries[index];
                 return CountryDetails(
+                  isDark: widget.isDark,
                   country: country,
                   follow: () {
                     setState(() {
@@ -141,10 +139,12 @@ class _CountriesState extends State<Countries> {
 }
 
 class CountryDetails extends StatelessWidget {
-  CountryDetails({@required this.country, @required this.follow});
+  CountryDetails(
+      {@required this.country, @required this.follow, @required this.isDark});
 
   final Map country;
   final Function follow;
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,10 @@ class CountryDetails extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.all(15),
       padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(color: kBoxColor, borderRadius: kBoxesRadius),
+      decoration: BoxDecoration(
+        color: isDark ? kBoxDarkColor : kBoxLightColor,
+        borderRadius: kBoxesRadius,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -161,10 +164,7 @@ class CountryDetails extends StatelessWidget {
             children: <Widget>[
               Text(
                 country['country'].toUpperCase(),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                 textAlign: TextAlign.center,
               ),
               IconButton(
@@ -195,7 +195,7 @@ class CountryDetails extends StatelessWidget {
             ],
           ),
           SizedBox(height: 5),
-          Divider(color: Colors.white, thickness: .5),
+          Divider(color: Colors.blueGrey[200], thickness: .5),
           SizedBox(height: 15),
           Text('Total cases: ${country['cases']}',
               style: TextStyle(fontSize: 18)),

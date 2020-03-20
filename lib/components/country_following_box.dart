@@ -7,7 +7,9 @@ class CountryMonitoringBox extends StatelessWidget {
   final int numberOfCases;
   final Function onPressed;
   final Function onLongPress;
+  final bool isDark;
   CountryMonitoringBox({
+    @required this.isDark,
     @required this.country,
     this.numberOfCases = 0,
     @required this.onPressed,
@@ -23,26 +25,30 @@ class CountryMonitoringBox extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.all(15),
         margin: EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(color: kBoxColor, borderRadius: kBoxesRadius),
+        decoration: BoxDecoration(
+          color: isDark ? kBoxDarkColor : kBoxLightColor,
+          borderRadius: kBoxesRadius,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundColor: Colors.black,
-                  child: Icon(FontAwesomeIcons.thumbtack, color: Colors.blue, size: 20),
+                  backgroundColor: isDark ? Colors.black : Colors.grey[100],
+                  child: Icon(FontAwesomeIcons.thumbtack,
+                      color: Colors.blue, size: 20),
                 ),
                 SizedBox(width: 15),
                 Text(
                   country,
-                  style: TextStyle(color: Colors.grey, fontSize: 22),
+                  style: TextStyle(fontSize: 22),
                 ),
               ],
             ),
             Text(
               '$numberOfCases',
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             )
           ],
         ),

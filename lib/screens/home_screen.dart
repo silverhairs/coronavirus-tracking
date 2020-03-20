@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:covid/providers/theme_changer.dart';
 import 'package:covid/screens/who_advice.dart';
 import 'package:covid/components/following_list.dart';
 import 'package:covid/screens/countries_screen.dart';
@@ -7,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:covid/constants.dart';
 import 'package:covid/components/info_box.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _HomeState extends State<Home> {
   int recovered = 0;
   int numberOfCountries = 0;
   List countries = [];
+  bool isDarkTheme = false;
   Future getData() async {
     http.Response response = await http.get(allCasesAPI);
     if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -54,110 +57,141 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
+
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20),
-          child: ListView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Text(
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        isDarkTheme
+                            ? FontAwesomeIcons.moon
+                            : FontAwesomeIcons.sun,
+                        color: Colors.blueGrey,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isDarkTheme = !isDarkTheme;
+                          _themeChanger.setTheme(
+                            isDarkTheme ? kDarkTheme : kLightTheme,
+                          );
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Flexible(
+                child: ListView(
+                  children: <Widget>[
+                    Text(
                       'Global',
                       style:
                           TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    children: <Widget>[
-                      InfoBox(
-                        title: 'Total cases',
-                        number: totalCases,
-                        color: Colors.blue,
-                        icon: Icon(FontAwesomeIcons.globeAmericas,
-                            color: Colors.white, size: 20),
+                    SizedBox(height: 15),
+                    Row(
+                      children: <Widget>[
+                        InfoBox(
+                          isDark: isDarkTheme,
+                          title: 'Total cases',
+                          number: totalCases,
+                          color: Colors.blue,
+                          icon: Icon(FontAwesomeIcons.globeAmericas,
+                              color: Colors.white, size: 20),
+                        ),
+                        SizedBox(width: 25),
+                        InfoBox(
+                          isDark: isDarkTheme,
+                          title: 'Countries',
+                          color: Colors.orange,
+                          icon: Icon(Icons.flag, color: Colors.white),
+                          number: numberOfCountries,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Countries(
+                                  countriesList: countries,
+                                  isDark: isDarkTheme,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 25),
+                    Row(
+                      children: <Widget>[
+                        InfoBox(
+                            isDark: isDarkTheme,
+                            title: 'Deaths',
+                            color: Colors.red,
+                            icon: Icon(FontAwesomeIcons.skull,
+                                color: Colors.white, size: 20),
+                            number: deaths),
+                        SizedBox(width: 25),
+                        InfoBox(
+                          isDark: isDarkTheme,
+                          title: 'Recovered',
+                          number: recovered,
+                          color: Colors.green,
+                          icon: Icon(Icons.check, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 25),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        color: isDarkTheme ? kBoxDarkColor : kBoxLightColor,
+                        borderRadius: kBoxesRadius,
                       ),
-                      SizedBox(width: 25),
-                      InfoBox(
-                        title: 'Countries',
-                        color: Colors.orange,
-                        icon: Icon(Icons.flag, color: Colors.white),
-                        number: numberOfCountries,
-                        onPressed: () {
+                      child: ListTile(
+                        leading: Icon(
+                          FontAwesomeIcons.readme,
+                          color: Colors.blue,
+                        ),
+                        title: Text(
+                          'Protective measures',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'Protective measures against the coronavirus',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Countries(
-                                countriesList: countries,
-                              ),
-                            ),
+                                builder: (context) => WhoAdvice(isDarkTheme)),
                           );
                         },
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  Row(
-                    children: <Widget>[
-                      InfoBox(
-                          title: 'Deaths',
-                          color: Colors.red,
-                          icon: Icon(FontAwesomeIcons.skull,
-                              color: Colors.white, size: 20),
-                          number: deaths),
-                      SizedBox(width: 25),
-                      InfoBox(
-                        title: 'Recovered',
-                        number: recovered,
-                        color: Colors.green,
-                        icon: Icon(Icons.check, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 25),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical:5),
-                    decoration: BoxDecoration(
-                      color: kBoxColor,
-                      borderRadius: kBoxesRadius,
                     ),
-                    child: ListTile(
-                      leading: Icon(
-                        FontAwesomeIcons.readme,
-                        color: Colors.blue,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 25),
+                      child: Text(
+                        'Countries I follow',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       ),
-                      title: Text(
-                        'Protective measures',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text(
-                        'Protective measures against the coronavirus',
-                        style: TextStyle(fontSize: 15, color: Colors.grey),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => WhoAdvice()),
-                        );
-                      },
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 25),
-                    child: Text(
-                      'Countries I follow',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  FollowingList()
-                ],
+                    FollowingList(isDarkTheme),
+                  ],
+                ),
               ),
             ],
           ),

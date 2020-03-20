@@ -8,12 +8,14 @@ class InfoBox extends StatelessWidget {
   final Color color;
   final int number;
   final Function onPressed;
+  final bool isDark;
 
   InfoBox({
     @required this.title,
     @required this.number,
     @required this.color,
     @required this.icon,
+    @required this.isDark,
     this.onPressed,
   });
 
@@ -27,7 +29,7 @@ class InfoBox extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: kBoxesRadius,
-            color: kBoxColor,
+            color: isDark ? kBoxDarkColor : kBoxLightColor,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,7 @@ class InfoBox extends StatelessWidget {
                           : Text(
                               '$number',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 25),
+                                  TextStyle(fontSize: 25, fontWeight: FontWeight.bold,),
                               textAlign: TextAlign.end,
                             ),
                     ],
@@ -65,7 +67,7 @@ class InfoBox extends StatelessWidget {
                   SizedBox(height: 10),
                   Text(
                     title,
-                    style: TextStyle(color: Colors.grey, fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   )
                 ],
               ),
