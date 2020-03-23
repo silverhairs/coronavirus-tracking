@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:covid/providers/theme_changer.dart';
 import 'package:covid/screens/who_advice.dart';
@@ -52,6 +53,8 @@ class _HomeState extends State<Home> {
   void initState() {
     getData();
     getCountries();
+    Timer.periodic(Duration(hours: 3), (Timer t) => getCountries());
+    Timer.periodic(Duration(hours: 3), (Timer t) => getData());
     super.initState();
   }
 
@@ -62,7 +65,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(top:5, left: 10, right: 10, bottom: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
