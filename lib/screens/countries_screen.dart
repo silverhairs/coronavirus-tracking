@@ -18,14 +18,16 @@ class Countries extends StatefulWidget {
 
 class _CountriesState extends State<Countries> {
   List filteredCountries = [];
+  final searchInputController = TextEditingController();
 
   void findCountry(value) {
     filteredCountries = widget.countriesList
         .where(
-          (country) => country['country'] == value,
+          (country) =>
+              (country['country'].toLowerCase()).contains(value.toLowerCase()),
         )
         .toList();
-    // assign the displayed list of countries to the value entered into the searchbar
+    // assign filteredCountries to a list of all the countries containing the entered query
   }
 
 // toggle appbar icon
@@ -87,6 +89,7 @@ class _CountriesState extends State<Countries> {
                     SizedBox(width: 15),
                     Expanded(
                       child: TextField(
+                        controller: searchInputController,
                         autofocus: true,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Search country...',
