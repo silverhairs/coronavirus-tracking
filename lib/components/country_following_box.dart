@@ -1,6 +1,5 @@
 import 'package:covid/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CountryMonitoringBox extends StatelessWidget {
   final String country;
@@ -8,7 +7,9 @@ class CountryMonitoringBox extends StatelessWidget {
   final Function onPressed;
   final Function onLongPress;
   final bool isDark;
+  final NetworkImage countryFlag;
   CountryMonitoringBox({
+    @required this.countryFlag,
     @required this.isDark,
     @required this.country,
     this.numberOfCases = 0,
@@ -35,9 +36,7 @@ class CountryMonitoringBox extends StatelessWidget {
             Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundColor: isDark ? Colors.black : Colors.grey[100],
-                  child: Icon(FontAwesomeIcons.thumbtack,
-                      color: Colors.blue, size: 20),
+                  backgroundImage: countryFlag,
                 ),
                 SizedBox(width: 15),
                 Text(

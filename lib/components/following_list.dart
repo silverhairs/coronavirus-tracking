@@ -15,6 +15,7 @@ class FollowingList extends StatelessWidget {
       return Column(
         children: followings.map((following) {
           return CountryMonitoringBox(
+            countryFlag: following.flag,
             isDark: isDark,
             country: following.country,
             numberOfCases: following.cases,

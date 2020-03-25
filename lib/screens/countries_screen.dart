@@ -165,6 +165,11 @@ class CountryDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Image(
+                image: NetworkImage(country['countryInfo']['flag']),
+                height: 20,
+                width: 25,
+              ),
               Text(
                 country['country'].toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
@@ -188,6 +193,7 @@ class CountryDetails extends StatelessWidget {
                     todayCases: country['todayCases'],
                     todayDeaths: country['todayDeaths'],
                     isFollowed: country['isFollowed'],
+                    flag: NetworkImage(country['countryInfo']['flag'])
                   );
                   if (country['isFollowed']) {
                     Provider.of<FollowingData>(context, listen: false)

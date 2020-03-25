@@ -1,3 +1,5 @@
+import 'package:flutter/rendering.dart';
+
 class Following {
   String country;
   int cases;
@@ -6,8 +8,10 @@ class Following {
   int todayDeaths;
   int recovered;
   int critical;
+  NetworkImage flag;
   bool isFollowed;
   Following({
+    this.flag,
     this.cases,
     this.country,
     this.critical,
