@@ -33,17 +33,21 @@ class CountryMonitoringBox extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: countryFlag,
-                ),
-                SizedBox(width: 15),
-                Text(
-                  country,
-                  style: TextStyle(fontSize: 22),
-                ),
-              ],
+            Flexible(
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: countryFlag,
+                  ),
+                  SizedBox(width: 15),
+                  Flexible(
+                    child: Text(
+                      country,
+                      style: TextStyle(fontSize: 22),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Text(
               '$numberOfCases',

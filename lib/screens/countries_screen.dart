@@ -170,10 +170,12 @@ class CountryDetails extends StatelessWidget {
                 height: 20,
                 width: 25,
               ),
-              Text(
-                country['country'].toUpperCase(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                textAlign: TextAlign.center,
+              Flexible(
+                child: Text(
+                  country['country'].toUpperCase(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  textAlign: TextAlign.center,
+                ),
               ),
               IconButton(
                 icon: !country['isFollowed']
@@ -185,16 +187,15 @@ class CountryDetails extends StatelessWidget {
                 onPressed: () {
                   follow();
                   var newFollow = Following(
-                    cases: country['cases'],
-                    country: country['country'],
-                    critical: country['critical'],
-                    deaths: country['deaths'],
-                    recovered: country['recovered'],
-                    todayCases: country['todayCases'],
-                    todayDeaths: country['todayDeaths'],
-                    isFollowed: country['isFollowed'],
-                    flag: NetworkImage(country['countryInfo']['flag'])
-                  );
+                      cases: country['cases'],
+                      country: country['country'],
+                      critical: country['critical'],
+                      deaths: country['deaths'],
+                      recovered: country['recovered'],
+                      todayCases: country['todayCases'],
+                      todayDeaths: country['todayDeaths'],
+                      isFollowed: country['isFollowed'],
+                      flag: NetworkImage(country['countryInfo']['flag']));
                   if (country['isFollowed']) {
                     Provider.of<FollowingData>(context, listen: false)
                         .follow(newFollow);
