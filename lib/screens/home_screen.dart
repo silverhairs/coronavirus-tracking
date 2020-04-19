@@ -50,6 +50,23 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Icon _themeSwitcherIcon(bool currentTheme) {
+    Icon currentIcon =
+        Icon(FontAwesomeIcons.sun, color: Colors.blueGrey, size: 20);
+    if (currentTheme == true) {
+      setState(() {
+        currentIcon =
+            Icon(FontAwesomeIcons.moon, color: Colors.blueGrey, size: 20);
+      });
+    } else {
+      setState(() {
+        currentIcon =
+            Icon(FontAwesomeIcons.sun, color: Colors.blueGrey, size: 20);
+      });
+    }
+    return currentIcon;
+  }
+
   @override
   void initState() {
     getData();
@@ -67,63 +84,17 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         leading: Container(),
         elevation: 0,
-      ),
-      endDrawer: Drawer(
-        elevation: 4,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(
-                'Settings',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline
-                    .copyWith(color: Colors.white),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text('Features'),
-                  SizedBox(height: 8),
-                  Text('Show on Map', style: Theme.of(context).textTheme.title),
-                  SizedBox(height: 10),
-                  Text('Display'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Change Theme',
-                          style: Theme.of(context).textTheme.title),
-                      SizedBox(width: 20),
-                      Icon(FontAwesomeIcons.sun,
-                          color: Colors.blueGrey, size: 20),
-                      Switch(
-                        activeColor: Colors.blue,
-                        value: isDarkTheme,
-                        onChanged: (value) {
-                          setState(() {
-                            isDarkTheme = !isDarkTheme;
-                            _themeChanger.setTheme(
-                              isDarkTheme ? kDarkTheme : kLightTheme,
-                            );
-                          });
-                        },
-                      ),
-                      Icon(FontAwesomeIcons.moon,
-                          color: Colors.blueGrey, size: 20)
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        actions: <Widget>[
+          IconButton(
+            icon: _themeSwitcherIcon(isDarkTheme),
+            onPressed: () {
+              setState(() {
+                isDarkTheme = !isDarkTheme;
+                _themeChanger.setTheme(isDarkTheme ? kDarkTheme : kLightTheme);
+              });
+            },
+          )
+        ],
       ),
       body: SafeArea(
         child: Padding(
