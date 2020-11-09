@@ -1,8 +1,12 @@
+import 'package:covid/core/services/hive_service.dart';
 import 'package:flutter/foundation.dart';
-import 'following.dart';
+import '../models/following.dart';
+
+final _hiveService = HiveService();
 
 class FollowingData extends ChangeNotifier {
-  List<Following> _followings = [];
+  List<Following> _followings =
+      _hiveService == null ? [] : _hiveService.followings.toList();
 
   List<Following> get followings => _followings;
   int get totalFollowings => _followings.length;
@@ -13,7 +17,7 @@ class FollowingData extends ChangeNotifier {
   }
 
   void unfollow(Following country) {
-    _followings.remove(country);
+    _hiveService.deleteFollowing(country);
     notifyListeners();
   }
 }

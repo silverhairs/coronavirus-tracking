@@ -1,14 +1,14 @@
 import 'package:covid/constants.dart';
 import 'package:flutter/material.dart';
 
-class CountryMonitoringBox extends StatelessWidget {
+class WatchedCountryCard extends StatelessWidget {
   final String country;
   final int numberOfCases;
   final Function onPressed;
   final Function onLongPress;
   final bool isDark;
   final NetworkImage countryFlag;
-  CountryMonitoringBox({
+  WatchedCountryCard({
     @required this.countryFlag,
     @required this.isDark,
     @required this.country,

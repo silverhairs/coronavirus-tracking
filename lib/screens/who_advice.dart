@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,8 +20,12 @@ class WhoAdvice extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             return Markdown(
-              onTapLink: (url) {
-                launch(url);
+              onTapLink: (_, url, __) {
+                launch(
+                  url,
+                  forceSafariVC: Platform.isIOS ? true : false,
+                  forceWebView: !Platform.isIOS ? true : false,
+                );
               },
               data: snapshot.data,
               styleSheet: MarkdownStyleSheet(
@@ -47,7 +53,6 @@ class WhoAdvice extends StatelessWidget {
                   decoration: TextDecoration.underline,
                   color: Colors.blue,
                 ),
-                
               ),
             );
           }

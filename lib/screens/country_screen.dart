@@ -1,5 +1,5 @@
 import 'package:covid/constants.dart';
-import 'package:covid/providers/following.dart';
+import 'package:covid/core/models/following.dart';
 import 'package:flutter/material.dart';
 
 class Country extends StatelessWidget {

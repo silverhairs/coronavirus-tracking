@@ -1,12 +1,14 @@
+import 'package:covid/core/models/following.dart';
+import 'package:covid/core/providers/following_data.dart';
+import 'package:covid/core/services/hive_service.dart';
 import 'package:covid/extensions/string_extension.dart';
-import 'package:covid/providers/following_data.dart';
 import 'package:flutter/material.dart';
 import 'package:covid/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:covid/providers/following.dart';
 
 bool isPinned = false;
 bool isSearching = false;
+final _hiveService = HiveService();
 
 class Countries extends StatefulWidget {
   Countries({this.countriesList, this.isDark});
@@ -130,6 +132,18 @@ class _CountriesState extends State<Countries> {
                     setState(() {
                       country['isFollowed'] = !country['isFollowed'];
                     });
+                    var following = Following(
+                      country: country["country"],
+                      cases: country["cases"],
+                      isFollowed: country["'isFollowed'"],
+                      critical: country["critical"],
+                      deaths: country["deaths"],
+                      todayCases: country["todayCases"],
+                      flagURL: country["flag"],
+                      recovered: country["recovered"],
+                      todayDeaths: country["todayDeaths"],
+                    );
+                    _hiveService.saveFollowing(following);
                   },
                 );
               },
@@ -195,7 +209,7 @@ class CountryDetails extends StatelessWidget {
                       todayCases: country['todayCases'],
                       todayDeaths: country['todayDeaths'],
                       isFollowed: country['isFollowed'],
-                      flag: NetworkImage(country['countryInfo']['flag']));
+                      flagURL: country['countryInfo']['flag']);
                   if (country['isFollowed']) {
                     Provider.of<FollowingData>(context, listen: false)
                         .follow(newFollow);

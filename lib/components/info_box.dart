@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class InfoBox extends StatelessWidget {
   final String title;
-  final Icon icon;
+  final Widget icon;
   final Color color;
   final int number;
   final Function onPressed;
@@ -58,8 +58,10 @@ class InfoBox extends StatelessWidget {
                             )
                           : Text(
                               '$number',
-                              style:
-                                  TextStyle(fontSize: 25, fontWeight: FontWeight.bold,),
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
                               textAlign: TextAlign.end,
                             ),
                     ],

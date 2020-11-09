@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:covid/providers/theme_changer.dart';
+import 'package:covid/core/providers/theme_changer.dart';
 import 'package:covid/screens/who_advice.dart';
 import 'package:covid/components/following_list.dart';
 import 'package:covid/screens/countries_screen.dart';
@@ -69,7 +69,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    getData();
     getCountriesData();
     Timer.periodic(Duration(hours: 3), (Timer t) => getCountriesData());
     Timer.periodic(Duration(hours: 3), (Timer t) => getData());

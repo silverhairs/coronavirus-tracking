@@ -1,9 +1,10 @@
 import 'package:covid/constants.dart';
+import 'package:covid/core/models/following.dart';
+import 'package:covid/core/providers/following_data.dart';
 import 'package:covid/screens/country_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:covid/providers/following_data.dart';
 import 'package:provider/provider.dart';
-import 'country_following_box.dart';
+import 'watched_country_card.dart';
 
 class FollowingList extends StatelessWidget {
   final bool isDark;
@@ -11,11 +12,11 @@ class FollowingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FollowingData>(builder: (context, followingData, child) {
-      var followings = followingData.followings;
+      List<Following> followings = followingData.followings;
       return Column(
         children: followings.map((following) {
-          return CountryMonitoringBox(
-            countryFlag: following.flag,
+          return WatchedCountryCard(
+            countryFlag: NetworkImage(following.flagURL),
             isDark: isDark,
             country: following.country,
             numberOfCases: following.cases,
