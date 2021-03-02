@@ -1,4 +1,10 @@
+import 'package:covid/core/providers/followings_provider.dart';
+import 'package:covid/core/providers/theme_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'core/models/country.dart';
 
 Color kBoxDarkColor = Color(0xFF1C1B32);
 Color kBoxLightColor = Colors.white;
@@ -16,3 +22,15 @@ ThemeData kLightTheme = ThemeData(
   primaryColor: Colors.grey[100],
   scaffoldBackgroundColor: Colors.grey[100],
 );
+
+final countriesBox = Hive.box<Set<Country>>('following');
+
+final themeNotifier = ChangeNotifierProvider<ThemeNotifier>(
+  (ref) => ThemeNotifier(),
+);
+final followingsNotifier = ChangeNotifierProvider<FollowingsNotifier>(
+  (ref) => FollowingsNotifier(),
+);
+
+double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
+double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;

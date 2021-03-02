@@ -21,60 +21,59 @@ class InfoBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          padding: EdgeInsets.all(15),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: kBoxesRadius,
-            color: isDark ? kBoxDarkColor : kBoxLightColor,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: color,
-                        child: icon,
-                      ),
-                      SizedBox(width: 5),
-                      number == 0
-                          ? SpinKitFadingCircle(
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: color,
-                                  ),
-                                );
-                              },
-                            )
-                          : Text(
-                              '$number',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.end,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(12),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: kBoxesRadius,
+          color: isDark ? kBoxDarkColor : kBoxLightColor,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundColor: color,
+                      child: icon,
+                    ),
+                    SizedBox(width: 5),
+                    number == null
+                        ? SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: color,
+                                ),
+                              );
+                            },
+                          )
+                        : Text(
+                            '$number',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 15),
-                  )
-                ],
-              ),
-            ],
-          ),
+                            textAlign: TextAlign.end,
+                          ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 15),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

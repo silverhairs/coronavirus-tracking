@@ -1,17 +1,17 @@
 import 'package:covid/constants.dart';
-import 'package:covid/core/models/following.dart';
+import 'package:covid/core/models/country.dart';
 import 'package:flutter/material.dart';
 
-class Country extends StatelessWidget {
-  final Following country;
+class CountryScreen extends StatelessWidget {
+  final Country country;
   final bool isDark;
-  Country({@required this.isDark, @required this.country});
+  CountryScreen({@required this.isDark, @required this.country});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(country.country),
+        title: Text(country.name),
       ),
       body: ListView(
         children: <Widget>[
@@ -31,7 +31,7 @@ class Country extends StatelessWidget {
                 Divider(thickness: .3, color: Colors.blueGrey[200]),
                 SizedBox(height: 15),
                 Text(
-                  'Cases: ${country.cases}\nDeceased: ${country.deaths}\nHealed: ${country.recovered}\nCritical cases: ${country.critical}',
+                  'Cases: ${country.totalCases}\nDeceased: ${country.totalDeaths}\nHealed: ${country.recoveries}\nCritical cases: ${country.critical}',
                   style: TextStyle(fontSize: 18),
                 ),
                 SizedBox(height: 20),
