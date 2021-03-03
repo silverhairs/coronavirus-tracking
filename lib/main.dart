@@ -13,7 +13,7 @@ Future<void> main() async {
   final appDocsDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocsDir.path);
   Hive.registerAdapter(CountryAdapter());
-  await Hive.openBox<Set<Country>>('following');
+  await Hive.openBox<List<Country>>('following');
   await Hive.openBox<String>('appTheme');
   runApp(ProviderScope(child: CoronaVirusApp()));
 }

@@ -1,237 +1,211 @@
-// import 'package:covid/core/models/country.dart';
-// import 'package:covid/extensions/string_extension.dart';
-// import 'package:flutter/material.dart';
-// import 'package:covid/constants.dart';
-// import 'package:provider/provider.dart';
+import 'dart:convert';
 
-// bool isPinned = false;
-// bool isSearching = false;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:covid/core/models/country.dart';
+import 'package:flutter/material.dart';
+import 'package:covid/constants.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart';
 
-// class Countries extends StatefulWidget {
-//   Countries({this.countriesList, this.isDark});
-//   final List countriesList;
-//   final bool isDark;
-//   @override
-//   _CountriesState createState() => _CountriesState();
-// }
+bool isPinned = false;
+bool isSearching = false;
 
-// class _CountriesState extends State<Countries> {
-//   List filteredCountries = [];
-//   final searchInputController = TextEditingController();
+class CountriesScreen extends HookWidget {
+  final bool isDark;
+  const CountriesScreen({this.isDark});
 
-//   void findCountry(value) {
-//     filteredCountries = widget.countriesList
-//         .where(
-//           (country) =>
-//               (country['country'].toLowerCase()).contains(value.toLowerCase()),
-//         )
-//         .toList();
-//     // assign filteredCountries to a list of all the countries containing the entered query
-//   }
+  Stream<Response> _getCountriesList() async* {
+    yield* Stream.periodic(Duration(seconds: 3), (_) {
+      return get(affectedCountriesAPI);
+    }).asyncMap(
+      (event) async => await event,
+    );
+  }
 
-// // toggle appbar icon
-//   GestureDetector toggleAppBarIcon() {
-//     GestureDetector displayedIcon;
-//     if (isSearching) {
-//       displayedIcon = GestureDetector(
-//         child: Icon(
-//           Icons.cancel,
-//         ),
-//         onTap: () {
-//           setState(() {
-//             isSearching = !isSearching;
-//             filteredCountries = widget.countriesList;
-//             // reassign filteredCountries to the initial value when the searchbar is collapsed
-//           });
-//         },
-//       );
-//     } else {
-//       displayedIcon = GestureDetector(
-//         child: Icon(
-//           Icons.search,
-//         ),
-//         onTap: () {
-//           setState(() {
-//             isSearching = !isSearching;
-//           });
-//         },
-//       );
-//     }
-//     return displayedIcon;
-//   }
+  @override
+  Widget build(BuildContext context) {
+    final _searchBarIsVisible = useState<bool>(false);
+    final _searchInputController = useTextEditingController.fromValue(
+      TextEditingValue.empty,
+    );
+    final _countries = useProvider(countriesNotifier);
+    final _followingsProvider = useProvider(followingsNotifier);
+    final _filteredCountriesList = useState<List<Country>>([]);
 
-//   @override
-//   void initState() {
-//     filteredCountries = widget.countriesList;
-//     // assign countriesList to a mutable variable so that I can edit it when changing states
-//     filteredCountries.forEach((country) {
-//       country['isFollowed'] = false;
-//     });
-//     super.initState();
-//   }
+    void _searchCountry(String value) {
+      if (value.isNotEmpty) {
+        _filteredCountriesList.value = _filteredCountriesList.value
+            .where(
+              (country) =>
+                  country.name.toLowerCase().contains(value.toLowerCase()),
+            )
+            .toList();
+      }
+      _filteredCountriesList.value = _countries.countries;
+    }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: isSearching
-//             ? Container(
-//                 width: double.infinity,
-//                 padding: EdgeInsets.symmetric(horizontal: 15),
-//                 decoration: BoxDecoration(
-//                   color: widget.isDark ? kBoxDarkColor : Colors.grey[100],
-//                   borderRadius: BorderRadius.circular(30),
-//                 ),
-//                 child: Row(
-//                   children: <Widget>[
-//                     Icon(Icons.search),
-//                     SizedBox(width: 15),
-//                     Expanded(
-//                       child: TextField(
-//                         controller: searchInputController,
-//                         autofocus: true,
-//                         decoration: InputDecoration.collapsed(
-//                           hintText: 'Search country...',
-//                         ),
-//                         onChanged: (value) {
-//                           setState(() {
-//                             value == ''
-//                                 ? filteredCountries = widget.countriesList
-//                                 : findCountry(
-//                                     (value.toLowerCase()).capitalize());
-//                           });
-//                         },
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               )
-//             : Text('Affected Countries'),
-//         centerTitle: true,
-//         actions: <Widget>[
-//           Padding(
-//             padding: EdgeInsets.only(right: 8.0),
-//             child: toggleAppBarIcon(),
-//           )
-//         ],
-//       ),
-//       body: Column(
-//         children: <Widget>[
-//           Expanded(
-//             child: ListView.builder(
-//               itemCount: filteredCountries.length,
-//               itemBuilder: (context, index) {
-//                 var country = filteredCountries[index];
-//                 return CountryDetails(
-//                   isDark: widget.isDark,
-//                   country: country,
-//                   follow: () {
-//                     setState(() {
-//                       country['isFollowed'] = !country['isFollowed'];
-//                     });
-//                     var following = Country(
-//                       name: country["country"],
-//                       totalCases: country["cases"],
-//                       isFollowed: country["'isFollowed'"],
-//                       critical: country["critical"],
-//                       totalDeaths: country["deaths"],
-//                       todayCases: country["todayCases"],
-//                       flagURL: country["flag"],
-//                       recoveries: country["recovered"],
-//                       todayDeaths: country["todayDeaths"],
-//                     );
-//                     _hiveService.saveFollowing(following);
-//                   },
-//                 );
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+    return Scaffold(
+      appBar: AppBar(
+        title: _searchBarIsVisible.value
+            ? Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: this.isDark ? kBoxDarkColor : Colors.grey[100],
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.search),
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: TextField(
+                        textInputAction: TextInputAction.search,
+                        controller: _searchInputController,
+                        autofocus: true,
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Search country...',
+                        ),
+                        onChanged: _searchCountry,
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : Text('Affected Countries'),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(_searchBarIsVisible.value ? Icons.cancel : Icons.search),
+            onPressed: () {
+              _searchBarIsVisible.value = !_searchBarIsVisible.value;
+              if (!_searchBarIsVisible.value) {
+                _filteredCountriesList.value = _countries.countries;
+                _searchInputController.text = '';
+              }
+            },
+          )
+        ],
+      ),
+      body: StreamBuilder<Response>(
+        stream: _getCountriesList(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            json.decode(snapshot.data.body).forEach((country) {
+              if (!_countries.countries.contains(country))
+                _countries.save(Country.fromMap(country));
+            });
+            return ListView.builder(
+              itemCount: _searchBarIsVisible.value
+                  ? _filteredCountriesList.value.length
+                  : _countries.countries.length,
+              itemBuilder: (context, index) {
+                var country = _searchBarIsVisible.value
+                    ? _filteredCountriesList.value[index]
+                    : _countries.countries[index];
+                return CountryDetails(
+                  isDark: this.isDark,
+                  country: country,
+                  onFollow: () => _followingsProvider.follow(country),
+                );
+              },
+            );
+          }
+          return Center(
+            child: Container(
+              width: double.infinity,
+              height: 300,
+              child: SpinKitFadingCircle(
+                itemBuilder: (BuildContext context, int index) {
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
 
-// class CountryDetails extends StatelessWidget {
-//   CountryDetails(
-//       {@required this.country, @required this.follow, @required this.isDark});
+class CountryDetails extends StatelessWidget {
+  final Country country;
+  final bool isDark;
+  final VoidCallback onFollow;
 
-//   final Map country;
-//   final Function follow;
-//   final bool isDark;
+  const CountryDetails({
+    @required this.country,
+    @required this.isDark,
+    @required this.onFollow,
+    Key key,
+  }) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: double.infinity,
-//       margin: EdgeInsets.all(15),
-//       padding: EdgeInsets.all(15),
-//       decoration: BoxDecoration(
-//         color: isDark ? kBoxDarkColor : kBoxLightColor,
-//         borderRadius: kBoxesRadius,
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: <Widget>[
-//               Image(
-//                 image: NetworkImage(country['countryInfo']['flag']),
-//                 height: 20,
-//                 width: 25,
-//               ),
-//               Flexible(
-//                 child: Text(
-//                   country['country'].toUpperCase(),
-//                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-//                   textAlign: TextAlign.center,
-//                 ),
-//               ),
-//               IconButton(
-//                 icon: !country['isFollowed']
-//                     ? Icon(Icons.add)
-//                     : Icon(
-//                         Icons.check,
-//                         color: Colors.green,
-//                       ),
-//                 onPressed: () {
-//                   follow();
-//                   var newFollow = Country(
-//                       totalCases: country['cases'],
-//                       name: country['country'],
-//                       critical: country['critical'],
-//                       totalDeaths: country['deaths'],
-//                       recoveries: country['recovered'],
-//                       todayCases: country['todayCases'],
-//                       todayDeaths: country['todayDeaths'],
-//                       isFollowed: country['isFollowed'],
-//                       flagURL: country['countryInfo']['flag']);
-//                   if (country['isFollowed']) {
-//                     Provider.of<Country>(context, listen: false)
-//                         .follow(newFollow);
-//                   }
-//                 },
-//               )
-//             ],
-//           ),
-//           SizedBox(height: 5),
-//           Divider(color: Colors.blueGrey[200], thickness: .5),
-//           SizedBox(height: 15),
-//           Text('Total cases: ${country['cases']}',
-//               style: TextStyle(fontSize: 18)),
-//           Text('Today cases: ${country['todayCases']}',
-//               style: TextStyle(fontSize: 18)),
-//           Text('Total deaths: ${country['deaths']}',
-//               style: TextStyle(fontSize: 18)),
-//           Text('Today deaths: ${country['todayDeaths']}',
-//               style: TextStyle(fontSize: 18)),
-//           Text('Recovered: ${country['recovered']}',
-//               style: TextStyle(fontSize: 18)),
-//           Text('In critical state: ${country['critical']}',
-//               style: TextStyle(fontSize: 18)),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.all(15),
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: isDark ? kBoxDarkColor : kBoxLightColor,
+        borderRadius: kBoxesRadius,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              CachedNetworkImage(
+                imageUrl: this.country.flagURL,
+                height: 20,
+                width: 25,
+                errorWidget: (_, __, ___) => Icon(
+                  Icons.image,
+                  color: Colors.grey,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  country.name.toUpperCase(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              IconButton(
+                icon: !country.isFollowed
+                    ? Icon(Icons.add)
+                    : Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      ),
+                onPressed: this.onFollow,
+              )
+            ],
+          ),
+          SizedBox(height: 5),
+          Divider(color: Colors.blueGrey[200], thickness: .5),
+          SizedBox(height: 15),
+          Text('Total cases: ${country.totalCases}',
+              style: TextStyle(fontSize: 18)),
+          Text('Today cases: ${country.todayCases}',
+              style: TextStyle(fontSize: 18)),
+          Text('Total deaths: ${country.totalDeaths}',
+              style: TextStyle(fontSize: 18)),
+          Text('Today deaths: ${country.todayDeaths}',
+              style: TextStyle(fontSize: 18)),
+          Text('Recovered: ${country.recoveries}',
+              style: TextStyle(fontSize: 18)),
+          Text('In critical state: ${country.critical}',
+              style: TextStyle(fontSize: 18)),
+        ],
+      ),
+    );
+  }
+}

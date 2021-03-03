@@ -1,3 +1,4 @@
+import 'package:covid/core/providers/countries_provider.dart';
 import 'package:covid/core/providers/followings_provider.dart';
 import 'package:covid/core/providers/theme_notifier.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +24,16 @@ ThemeData kLightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.grey[100],
 );
 
-final countriesBox = Hive.box<Set<Country>>('following');
+final countriesBox = Hive.box<List<Country>>('following');
 
 final themeNotifier = ChangeNotifierProvider<ThemeNotifier>(
   (ref) => ThemeNotifier(),
 );
 final followingsNotifier = ChangeNotifierProvider<FollowingsNotifier>(
   (ref) => FollowingsNotifier(),
+);
+final countriesNotifier = ChangeNotifierProvider<CountriesNotifier>(
+  (ref) => CountriesNotifier(),
 );
 
 double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;

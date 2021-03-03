@@ -7,25 +7,27 @@ class FollowingsNotifier extends ChangeNotifier {
   List<Country> get followings => _followings;
 
   void follow(Country country) {
-    _followings.add(country);
-    _save(_followings.toSet());
+    if (!_followings.contains(country)) {
+      _followings.add(country);
+      _save(_followings);
+    }
     notifyListeners();
   }
 
   void unfollow(Country country) {
     _followings.remove(country);
-    _save(_followings.toSet());
+    _save(_followings);
     notifyListeners();
   }
 }
 
 List<Country> _getFollowings() {
   return countriesBox
-      .get('followings', defaultValue: {})
+      .get('followings', defaultValue: [])
       .cast<Country>()
       .toList();
 }
 
-void _save(Set<Country> folowings) {
+void _save(List<Country> folowings) {
   countriesBox.put('followings', folowings);
 }
