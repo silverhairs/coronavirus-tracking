@@ -4,22 +4,27 @@ description: CoronaVirus tracking app.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  font_awesome_flutter: ^8.7.0
-  cupertino_icons: ^0.1.2
-  provider: ^4.0.4
-  http: ^0.12.0+4
-  flutter_spinkit: ^4.1.2
-  flutter_markdown: ^0.3.4
-  url_launcher: ^5.4.2
+  another_flushbar: ^1.10.22
+  cupertino_icons: ^1.0.3
+  equatable: ^2.0.2
+  flutter_bloc: ^7.0.0
+  flutter_remix: ^0.0.3
+  hive: ^2.0.4
+  http: ^0.13.3
+  path_provider: ^2.0.2
+  rxdart: ^0.27.0
+  very_good_analysis: ^2.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^2.0.4
+  hive_generator: ^1.1.0
 
 flutter:
   uses-material-design: true
