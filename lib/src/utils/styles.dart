@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 /// App's Color palette
 class AppColors {
@@ -18,34 +18,23 @@ class AppColors {
 final BorderRadius defaultRadius = BorderRadius.circular(10);
 
 /// App's theme when the [Brightness] is set to dark.
-ThemeData darkTheme(BuildContext context) => Theme.of(context).copyWith(
-      brightness: Brightness.dark,
-      primaryColor: AppColors.darkBlue,
-      accentColor: AppColors.blue,
-      scaffoldBackgroundColor: AppColors.dark,
-      textTheme: Theme.of(context).textTheme.apply(
-            bodyColor: AppColors.light,
-            displayColor: AppColors.light,
-          ),
-    );
+const CupertinoThemeData darkTheme = CupertinoThemeData(
+  brightness: Brightness.dark,
+  primaryColor: AppColors.darkBlue,
+  primaryContrastingColor: AppColors.white,
+  scaffoldBackgroundColor: AppColors.dark,
+);
 
 /// App's theme when the [Brightness] is set to light.
-ThemeData lightTheme(BuildContext context) => Theme.of(context).copyWith(
-      brightness: Brightness.light,
-      primaryColor: AppColors.light,
-      accentColor: AppColors.blue,
-      scaffoldBackgroundColor: AppColors.light,
-      textTheme: Theme.of(context).textTheme.apply(
-            bodyColor: AppColors.black,
-            displayColor: AppColors.black,
-          ),
-    );
+const CupertinoThemeData lightTheme = CupertinoThemeData(
+  brightness: Brightness.light,
+  primaryColor: AppColors.white,
+  primaryContrastingColor: AppColors.black,
+  scaffoldBackgroundColor: AppColors.light,
+);
 
-/// Default theme for [TextField] and [TextFormField] widgets used in the app.
-InputDecorationTheme defaultInputDecoration(
-        BuildContext context, bool isDarkTheme) =>
-    Theme.of(context).inputDecorationTheme.copyWith(
-          border: OutlineInputBorder(borderRadius: defaultRadius * 2.5),
-          fillColor: isDarkTheme ? AppColors.darkBlue : AppColors.white,
-          filled: true,
-        );
+/// Returns the current device's Width
+double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
+/// Returns the current device's Height
+double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;

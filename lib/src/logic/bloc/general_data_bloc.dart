@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
 import 'package:covid/src/utils/constants.dart';
-import 'package:covid/src/logic/exceptions.dart';
+import 'package:covid/src/utils/exceptions.dart';
 import 'package:covid/src/data/models/general_data/general_data.dart';
 
 part 'general_data_event.dart';

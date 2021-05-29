@@ -8,6 +8,7 @@ class Country extends Equatable {
     required this.id,
     required this.name,
     required this.updated,
+    this.isTracked = false,
     this.flagURL,
     this.active = 0,
     this.cases = 0,
@@ -18,31 +19,35 @@ class Country extends Equatable {
     this.todayRecovered = 0,
   });
   @HiveField(0)
-  final dynamic id;
+  final bool? isTracked;
   @HiveField(1)
-  final int updated;
+  final dynamic id;
   @HiveField(2)
-  final String name;
+  final int updated;
   @HiveField(3)
-  final int cases;
+  final String name;
   @HiveField(4)
-  final int todayCases;
+  final int cases;
   @HiveField(5)
-  final int deaths;
+  final int todayCases;
   @HiveField(6)
-  final int todayDeaths;
+  final int deaths;
   @HiveField(7)
-  final int recovered;
+  final int todayDeaths;
   @HiveField(8)
-  final int todayRecovered;
+  final int recovered;
   @HiveField(9)
-  final String? flagURL;
+  final int todayRecovered;
   @HiveField(10)
+  final String? flagURL;
+  @HiveField(11)
   final int active;
 
   @override
   List<Object?> get props => [
+        isTracked,
         id,
+        updated,
         name,
         flagURL,
         active,
@@ -54,7 +59,35 @@ class Country extends Equatable {
         todayRecovered,
       ];
 
-  /// Generates a new [Country] object from given json data.
+  Country copytWith({
+    bool? isTracked,
+    dynamic id,
+    String? name,
+    String? flagURL,
+    int? active,
+    int? cases,
+    int? deaths,
+    int? recovered,
+    int? todayCases,
+    int? todayDeaths,
+    int? todayRecovered,
+    int? updated,
+  }) =>
+      Country(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        updated: updated ?? this.updated,
+        active: active ?? this.active,
+        cases: cases ?? this.cases,
+        deaths: deaths ?? this.deaths,
+        flagURL: flagURL ?? this.flagURL,
+        isTracked: isTracked ?? this.isTracked,
+        recovered: recovered ?? this.recovered,
+        todayCases: todayCases ?? this.todayCases,
+        todayDeaths: todayDeaths ?? this.todayDeaths,
+        todayRecovered: todayRecovered ?? this.todayRecovered,
+      );
+
   static Country fromJson(Map<String, dynamic> data) => Country(
         // ignore: avoid_dynamic_calls
         id: data['countryInfo']['_id'],

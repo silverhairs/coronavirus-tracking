@@ -1,9 +1,9 @@
 import 'package:covid/app.dart';
 import 'package:covid/src/data/models/country/country.dart';
 import 'package:covid/src/data/models/general_data/general_data.dart';
-import 'package:covid/src/logic/blocs/countries_bloc/countries_bloc.dart';
-import 'package:covid/src/logic/blocs/geneal_data_bloc/general_data_bloc.dart';
-import 'package:covid/src/logic/brightness_cubit.dart';
+import 'package:covid/src/logic/bloc/blocs.dart';
+import 'package:covid/src/logic/cubit/cubits.dart';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -24,10 +24,12 @@ Future<void> main() async {
   await Hive.openBox<Object>('countries');
   await Hive.openBox<GeneralData>('general-data');
   await Hive.openBox<String>('theme');
+  await Hive.openBox<Country>('tracking');
 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider(create: (context) => BrightnessCubit()),
+  runApp(
+    MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => ThemeCubit()),
+      BlocProvider(create: (context) => TrackingCountryCubit()),
       BlocProvider(
         create: (context) => CountriesBloc(httpClient: httpClient)
           ..add(
@@ -40,7 +42,6 @@ Future<void> main() async {
             GeneralDataFetched(),
           ),
       ),
-    ],
-    child: CoronavirusApp(),
-  ));
+    ], child: CoronavirusApp()),
+  );
 }

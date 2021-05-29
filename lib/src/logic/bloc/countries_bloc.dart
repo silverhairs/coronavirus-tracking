@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:bloc/bloc.dart';
-import 'package:covid/src/logic/exceptions.dart';
+import 'package:covid/src/utils/exceptions.dart';
 import 'package:covid/src/utils/constants.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -70,13 +71,15 @@ class CountriesBloc extends Bloc<CountriesEvent, CountriesState> {
 final _countriesBox = Hive.box<Object>('countries');
 
 CountriesState _fetchSavedState() {
-  final countries =
-      _countriesBox.get('data', defaultValue: <Country>[]) as List<Country>;
+  final countries = _countriesBox.get('data', defaultValue: []) as List;
   final lastUpdate = _countriesBox.get(
     'update-time',
     defaultValue: DateTime.now(),
   ) as DateTime;
-  return CountriesState(lastUpdate: lastUpdate, countries: countries);
+  return CountriesState(
+    lastUpdate: lastUpdate,
+    countries: countries.cast<Country>(),
+  );
 }
 
 Future<void> _saveStateLocally(CountriesState state) async {

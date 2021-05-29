@@ -88,22 +88,28 @@ class GeneralData extends Equatable {
   static GeneralData fromJson(Map<String, dynamic> data) => GeneralData(
         updated: data['updated'],
         active: data['active'],
-        activePerMillion: data['activePerOneMillion'],
         affectedCountries: data['affectedCountries'],
         cases: data['cases'],
-        casesPerMillion: data['casesPerOneMillion'],
         critical: data['critical'],
-        criticalPerMillion: data['criticalPerOneMillion'],
         deaths: data['deaths'],
-        deathsPerMillion: data['deathsPerOneMillion'],
         population: data['population'],
         recovered: data['recovered'],
-        recoveredPerMillion: data['recoveredPerOneMillion'],
         tests: data['tests'],
-        testsPerMilllion: data['testsPerOneMillion'],
         todayCases: data['todayCases'],
         todayDeaths: data['todayDeaths'],
         todayRecovered: data['todayRecovered'],
+        // ignore: avoid_dynamic_calls
+        activePerMillion: (data['activePerOneMillion']).toDouble(),
+        // ignore: avoid_dynamic_calls
+        casesPerMillion: (data['casesPerOneMillion']).toDouble(),
+        // ignore: avoid_dynamic_calls
+        criticalPerMillion: (data['criticalPerOneMillion']).toDouble(),
+        // ignore: avoid_dynamic_calls
+        deathsPerMillion: (data['deathsPerOneMillion']).toDouble(),
+        // ignore: avoid_dynamic_calls
+        recoveredPerMillion: (data['recoveredPerOneMillion']).toDouble(),
+        // ignore: avoid_dynamic_calls
+        testsPerMilllion: (data['testsPerOneMillion']).toDouble(),
       );
 
   static const empty = GeneralData(updated: 0);

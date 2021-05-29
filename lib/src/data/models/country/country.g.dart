@@ -17,45 +17,48 @@ class CountryAdapter extends TypeAdapter<Country> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Country(
-      id: fields[0] as dynamic,
-      name: fields[2] as String,
-      updated: fields[1] as int,
-      flagURL: fields[9] as String?,
-      active: fields[10] as int,
-      cases: fields[3] as int,
-      deaths: fields[5] as int,
-      recovered: fields[7] as int,
-      todayCases: fields[4] as int,
-      todayDeaths: fields[6] as int,
-      todayRecovered: fields[8] as int,
+      id: fields[1] as dynamic,
+      name: fields[3] as String,
+      updated: fields[2] as int,
+      isTracked: fields[0] as bool?,
+      flagURL: fields[10] as String?,
+      active: fields[11] as int,
+      cases: fields[4] as int,
+      deaths: fields[6] as int,
+      recovered: fields[8] as int,
+      todayCases: fields[5] as int,
+      todayDeaths: fields[7] as int,
+      todayRecovered: fields[9] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Country obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.isTracked)
       ..writeByte(1)
-      ..write(obj.updated)
+      ..write(obj.id)
       ..writeByte(2)
-      ..write(obj.name)
+      ..write(obj.updated)
       ..writeByte(3)
-      ..write(obj.cases)
+      ..write(obj.name)
       ..writeByte(4)
-      ..write(obj.todayCases)
+      ..write(obj.cases)
       ..writeByte(5)
-      ..write(obj.deaths)
+      ..write(obj.todayCases)
       ..writeByte(6)
-      ..write(obj.todayDeaths)
+      ..write(obj.deaths)
       ..writeByte(7)
-      ..write(obj.recovered)
+      ..write(obj.todayDeaths)
       ..writeByte(8)
-      ..write(obj.todayRecovered)
+      ..write(obj.recovered)
       ..writeByte(9)
-      ..write(obj.flagURL)
+      ..write(obj.todayRecovered)
       ..writeByte(10)
+      ..write(obj.flagURL)
+      ..writeByte(11)
       ..write(obj.active);
   }
 
