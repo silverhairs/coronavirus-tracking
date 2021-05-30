@@ -20,17 +20,19 @@ final BorderRadius defaultRadius = BorderRadius.circular(10);
 /// App's theme when the [Brightness] is set to dark.
 const CupertinoThemeData darkTheme = CupertinoThemeData(
   brightness: Brightness.dark,
-  primaryColor: AppColors.darkBlue,
+  primaryColor: AppColors.blue,
   primaryContrastingColor: AppColors.white,
-  scaffoldBackgroundColor: AppColors.dark,
+  scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
+  barBackgroundColor: AppColors.darkBlue,
 );
 
 /// App's theme when the [Brightness] is set to light.
 const CupertinoThemeData lightTheme = CupertinoThemeData(
   brightness: Brightness.light,
-  primaryColor: AppColors.white,
+  primaryColor: AppColors.blue,
   primaryContrastingColor: AppColors.black,
   scaffoldBackgroundColor: AppColors.light,
+  barBackgroundColor: AppColors.white,
 );
 
 /// Returns the current device's Width
@@ -38,3 +40,13 @@ double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
 /// Returns the current device's Height
 double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;
+
+/// TextStyle for tiles wrapped in Material widgets.
+TextStyle titleStyle(BuildContext context) =>
+    CupertinoTheme.of(context).textTheme.navTitleTextStyle;
+
+/// TextStyle for subtiles wrapped in Materiall widget.
+TextStyle subtitleStyle(BuildContext context) => CupertinoTheme.of(context)
+    .textTheme
+    .tabLabelTextStyle
+    .apply(fontSizeFactor: 1.5);

@@ -2,6 +2,7 @@ import 'package:covid/src/logic/cubit/cubits.dart';
 import 'package:covid/src/views/layout.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart' show DefaultMaterialLocalizations;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,11 @@ class CoronavirusApp extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, themeState) {
         return CupertinoApp(
+          localizationsDelegates: const [
+            DefaultWidgetsLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+            DefaultMaterialLocalizations.delegate,
+          ],
           debugShowCheckedModeBanner: false,
           theme: themeState.themeData,
           home: const MainLayout(),

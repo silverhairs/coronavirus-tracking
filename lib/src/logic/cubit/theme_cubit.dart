@@ -9,13 +9,9 @@ part 'theme_state.dart';
 class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(_fetchSavedState());
 
-  void toggle() {
-    if (state.themeData.brightness == Brightness.dark) {
-      emit(state.copyWith(themeData: darkTheme));
-    } else {
-      emit(state.copyWith(themeData: lightTheme));
-    }
-    _saveStateLocally(state);
+  void toggle(CupertinoThemeData theme) async {
+    emit(state.copyWith(themeData: theme));
+    await _saveStateLocally(state);
   }
 }
 
@@ -30,10 +26,10 @@ ThemeState _fetchSavedState() {
   }
 }
 
-void _saveStateLocally(ThemeState state) {
+Future<void> _saveStateLocally(ThemeState state) async {
   if (state.themeData.brightness == Brightness.dark) {
-    _themeBox.put('brightness', 'dark');
+    await _themeBox.put('brightness', 'dark');
   } else if (state.themeData.brightness == Brightness.light) {
-    _themeBox.put('brightness', 'light');
+    await _themeBox.put('brightness', 'light');
   }
 }

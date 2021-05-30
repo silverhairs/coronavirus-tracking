@@ -9,22 +9,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  another_flushbar: ^1.10.22
   cached_network_image: ^3.0.0
   cupertino_icons: ^1.0.3
   equatable: ^2.0.2
   flutter_bloc: ^7.0.0
   flutter_hooks: ^0.17.0
+  flutter_markdown: ^0.6.2
   flutter_remix: ^0.0.3
   hive: ^2.0.4
   http: ^0.13.3
+  mockito: ^5.0.9
   path_provider: ^2.0.2
   rxdart: ^0.27.0
+  url_launcher: ^6.0.4
   very_good_analysis: ^2.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  bloc_test: ^8.0.1
   build_runner: ^2.0.4
   hive_generator: ^1.1.0
 

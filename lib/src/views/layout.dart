@@ -17,6 +17,12 @@ class MainLayout extends HookWidget {
       builder: (context, state) {
         return CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
+            key: const Key('bottom'),
+            backgroundColor:
+                CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.2),
+            border: const Border(
+              top: BorderSide(width: 1, color: CupertinoColors.systemGrey2),
+            ),
             activeColor: AppColors.blue,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(

@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:covid/src/logic/bloc/blocs.dart';
 import 'package:covid/src/logic/cubit/cubits.dart';
 import 'package:covid/src/utils/styles.dart';
+import 'package:covid/src/views/widgets/countries_list.dart';
 import 'package:covid/src/views/widgets/theme_toggle_icon_button.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' show Material, ListTile, CircleAvatar;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_remix/flutter_remix.dart';
@@ -20,15 +19,14 @@ class CountriesListScreen extends HookWidget {
     final searchController =
         useTextEditingController.fromValue(TextEditingValue.empty);
     final pageController = useScrollController(debugLabel: 'page');
-    final countriesListController = useScrollController(debugLabel: 'list');
 
     return BlocConsumer<CountriesBloc, CountriesState>(
       listener: (context, state) {},
       builder: (context, state) => CupertinoPageScaffold(
-        child: NestedScrollView(
+        child: CustomScrollView(
           controller: pageController,
           physics: const BouncingScrollPhysics(),
-          headerSliverBuilder: (context, isChildScrolled) => [
+          slivers: [
             CupertinoSliverNavigationBar(
               backgroundColor:
                   CupertinoTheme.of(context).scaffoldBackgroundColor,
@@ -42,6 +40,7 @@ class CountriesListScreen extends HookWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: CupertinoTextField(
+                    cursorColor: AppColors.blue,
                     controller: searchController,
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     prefix: const Padding(
@@ -55,41 +54,15 @@ class CountriesListScreen extends HookWidget {
                     textInputAction: TextInputAction.search,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: CupertinoTheme.of(context).primaryColor,
+                      color: CupertinoTheme.of(context).barBackgroundColor,
                     ),
                   ),
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverCountriesList(state: state),
           ],
-          body: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            controller: countriesListController,
-            itemCount: state.countries.length,
-            itemBuilder: (context, idx) {
-              var country = state.countries[idx];
-              return Material(
-                color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 60,
-                    backgroundColor: AppColors.yellow,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(500),
-                      child: CachedNetworkImage(
-                        imageUrl: country.flagURL!,
-                        placeholder: (context, url) =>
-                            const CupertinoActivityIndicator(),
-                        errorWidget: (context, url, child) =>
-                            const Icon(FlutterRemix.error_warning_line),
-                      ),
-                    ),
-                  ),
-                  title: Text(country.name),
-                ),
-              );
-            },
-          ),
         ),
       ),
     );
