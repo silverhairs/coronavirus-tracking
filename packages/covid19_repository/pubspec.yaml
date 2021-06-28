@@ -1,0 +1,16 @@
+name: covid19_repository
+description: A Dart package to handle the covid19 domain.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  covid19_api:
+    path: ../covid19_api
+
+dev_dependencies:
+  coverage: ^1.0.3
+  mocktail: ^0.1.4
+  test: ^1.16.0

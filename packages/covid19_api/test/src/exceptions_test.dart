@@ -3,6 +3,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('HttpException', () {
+    test('returns constructor normally', () {
+      expect(() => HttpException(), returnsNormally);
+    });
+
     test('has concise toString', () {
       expect(
         HttpException('Failed').toString(),
@@ -12,6 +16,10 @@ void main() {
   });
 
   group('HttpRequestFailure', () {
+    test('returns constructor normally', () {
+      expect(() => HttpRequestFailure(404), returnsNormally);
+    });
+
     test('has concise toString', () {
       expect(
         HttpRequestFailure(404, 'Oops').toString(),
@@ -21,6 +29,10 @@ void main() {
   });
 
   group('JsonDecodeException', () {
+    test('returns constructor normally', () {
+      expect(() => JsonDecodeException(), returnsNormally);
+    });
+
     test('has concise toString', () {
       expect(
         JsonDecodeException('failed').toString(),
@@ -30,6 +42,10 @@ void main() {
   });
 
   group('JsonDeserializeException', () {
+    test('returns constructor normallt', () {
+      expect(() => JsonDeserializeException(), returnsNormally);
+    });
+
     test('has concise toString', () {
       expect(
         JsonDeserializeException('failed').toString(),

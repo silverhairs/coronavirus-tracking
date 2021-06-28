@@ -1,66 +1,66 @@
 {
-    "@@locale": "en",
-    "homePageTopTitle": "Overview",
+    "@@locale": "fr",
+    "homePageTopTitle": "Apperçu",
     "@homePageTopTitle": {
         "description": "Text shown in the top of the home page"
     },
-    "casesLabel": "Total cases",
+    "casesLabel": "Nombre total de cas",
     "@casesLabel": {
         "description": "Text that labels the total number of cases"
     },
-    "countriesLabel": "Countries",
+    "countriesLabel": "Pays",
     "@countriesLabel": {
         "description": "Text shown in the top of the countries list"
     },
-    "deathsLabel": "Deaths",
+    "deathsLabel": "Décès",
     "@deathsLabel": {
         "description": "Text that labels the total number of deaths"
     },
-    "recoveredLabel": "Recovered",
+    "recoveredLabel": "Guérisons",
     "@recoveredLabel": {
         "description": "Text that labels the total number of recovered cases"
     },
-    "whoArticleTitle": "Protective measures",
+    "whoArticleTitle": "Mésures de protection",
     "@whoArticleTitle": {
         "description": "Title on the tile that redirects to the article page"
     },
-    "whoArticleSubtitle": "Potective measures against the coronavirus",
+    "whoArticleSubtitle": "Mésures de protection contre le coronavirus",
     "@whoArticleSubtitle": {
         "description": "Subtitle on the tile that redirects to the article page"
     },
-    "whoArticlePageTitle": "Protective meassures",
+    "whoArticlePageTitle": "Mésures de protection",
     "@whoArticlePageTitle": {
         "description": "Text shown on the top of the article page"
     },
-    "untrackPopupTitle": "Untrack",
+    "untrackPopupTitle": "Ne plus suivre",
     "@untrackPopupTitle": {
         "description": "Title on the dialog to remove a country from the tracking list"
     },
-    "untrackPopupMessage1": "Remove ",
+    "untrackPopupMessage1": "Enlever ",
     "@untrackPopupMessage1": {
         "description": "Text before the country's name on the dialog to remove a country from the tracking list"
     },
-    "untrackPopupMessage2": " from the tracking list?",
+    "untrackPopupMessage2": " de la liste des pays à suivre?",
     "@untrackPopupMessage2": {
         "description": "Text after the country's name on the dialog to remove a country from the tracking list"
     },
-    "untrackPopupBtnYes": "Yes",
+    "untrackPopupBtnYes": "Oui",
     "@untrackPopupBtnYes": {
         "descriprion": "Affirmative action on the dialog to remove a country from the tracking list"
     },
-    "untrackPopupBtnNo": "No",
+    "untrackPopupBtnNo": "Non",
     "@untrackPopupBtnNo": {
         "description": "Negative action on the dialog to remove a country from the tracking list"
     },
-    "seachbarPlaceholder": "Search country",
+    "seachbarPlaceholder": "Chercher",
     "@seachbarPlaceholder": {
         "description": "Placeholder on the search bar for the countries"
     },
-    "trackedCountriesListTitle": "Tracking",
+    "trackedCountriesListTitle": "Pays à suivre",
     "@trackedCountriesListTitle": {
         "description": "Text shown on the top of the tracking countries list"
     },
-    "countriesPageTitle": "Affected countries",
+    "countriesPageTitle": "Pays Affectés",
     "@countriesPageTitle": {
         "description": "Title in the top of the page when the affected countries are displayed"
     }

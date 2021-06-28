@@ -1,14 +1,8 @@
-// Copyright (c) 2021, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:covid19_repository/covid19_repository.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:covid_tracker/app/app.dart';
@@ -20,8 +14,10 @@ void main() {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
+  final _covid19Repository = Covid19Repository();
+
   runZonedGuarded(
-    () => runApp(const App()),
+    () => runApp(App(covid19repository: _covid19Repository)),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }
