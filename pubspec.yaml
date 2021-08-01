@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 name: covid_tracker
-=======
-name: coronavirus_tracker
->>>>>>> 21dd3eede9c45e02b69e941ebe8a536c044cb89c
-description: A new Flutter project.
+description: A new Flutter app to track the spreak of the covid-19 worldwide.
 version: 1.0.0+1
 publish_to: none
 
