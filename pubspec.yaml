@@ -16,7 +16,10 @@ dependencies:
   covid19_repository:
     path: packages/covid19_repository
   bloc: ^7.0.0
-  flutter_bloc: ^7.0.0
+  equatable: ^2.0.3
+  flutter_bloc: ^7.1.0
+  flutter_hooks: ^0.18.0
+  flutter_remix: ^0.0.3
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   intl: ^0.17.0
@@ -24,7 +27,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^8.0.0
+  bloc_test: ^8.1.0
+  build_runner: ^2.0.5
+  hive_generator: ^1.1.0
   mocktail: ^0.1.0
   very_good_analysis: ^2.1.0
 

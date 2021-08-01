@@ -1,4 +1,5 @@
 import 'package:covid19_repository/covid19_repository.dart';
+import 'package:covid_tracker/core/cubit/theme_cubit.dart';
 import 'package:covid_tracker/home/view/home_page.dart';
 import 'package:covid_tracker/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -15,19 +16,41 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => RepositoryProvider.value(value: _covid19repository),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _covid19repository),
+      ],
+      child: const AppRoot(),
+    );
+  }
+}
+
+class AppRoot extends StatelessWidget {
+  const AppRoot({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ThemeCubit()),
+      ],
       child: const AppView(),
     );
   }
 }
 
 class AppView extends StatelessWidget {
-  const AppView({Key? key}) : super(key: key);
+  const AppView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.select((ThemeCubit cubit) => cubit.state.themeData);
+
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: theme,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate
