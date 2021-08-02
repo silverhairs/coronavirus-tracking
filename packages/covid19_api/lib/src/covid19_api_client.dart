@@ -22,7 +22,7 @@ class Covid19Client {
     try {
       res = await _httpClient.get(uri);
     } catch (_) {
-      throw HttpException('[overview]');
+      throw const HttpException('[overview]');
     }
     if (res.statusCode != 200) {
       throw HttpRequestFailure(res.statusCode, '[overview]');
@@ -31,12 +31,12 @@ class Covid19Client {
     try {
       data = jsonDecode(res.body) as Map<String, dynamic>;
     } catch (_) {
-      throw JsonDecodeException('[overview]');
+      throw const JsonDecodeException('[overview]');
     }
     try {
       return Overview.fromJson(data);
     } catch (_) {
-      throw JsonDeserializeException('[overview]');
+      throw const JsonDeserializeException('[overview]');
     }
   }
 
@@ -47,7 +47,7 @@ class Covid19Client {
     try {
       res = await _httpClient.get(uri);
     } catch (_) {
-      throw HttpException('[countries]');
+      throw const HttpException('[countries]');
     }
     if (res.statusCode != 200) {
       throw HttpRequestFailure(res.statusCode, '[countries]');
@@ -56,12 +56,13 @@ class Covid19Client {
     try {
       data = jsonDecode(res.body) as List;
     } catch (_) {
-      throw JsonDecodeException('[countries]');
+      throw const JsonDecodeException('[countries]');
     }
     try {
+      // ignore: unnecessary_lambdas
       return data.map((e) => Country.fromJson(e)).toList();
     } catch (_) {
-      throw JsonDeserializeException('[countries]');
+      throw const JsonDeserializeException('[countries]');
     }
   }
 }

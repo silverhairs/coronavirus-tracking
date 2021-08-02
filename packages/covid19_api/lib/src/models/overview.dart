@@ -28,55 +28,55 @@ class Overview extends Equatable {
   final int updated;
 
   /// Total number of COVID-19 cases globally
-  final int cases;
+  final int? cases;
 
   /// Number of COVID-19 cases today globally
-  final int todayCases;
+  final int? todayCases;
 
   /// Total number of COVID-19 deaths globally
-  final int deaths;
+  final int? deaths;
 
   /// Number of COVID-19 deaths today
-  final int todayDeaths;
+  final int? todayDeaths;
 
   /// Total number of people who recovered from COVID-19 globally
-  final int recovered;
+  final int? recovered;
 
   /// Number of people who recovered from COVID-19 today globally
-  final int todayRecovered;
+  final int? todayRecovered;
 
   /// Total number of active COVID-19 cases globally
-  final int active;
+  final int? active;
 
   /// Number of COVID-19 cases in citical state globally
-  final int critical;
+  final int? critical;
 
   /// Number of COVID-19 cases for every 1 million people
-  final double casesPerOneMillion;
+  final double? casesPerOneMillion;
 
   /// Number of COVID-19 deaths for every 1 million people
-  final double deathsPerOneMillion;
+  final double? deathsPerOneMillion;
 
   /// Number of people tested globally
-  final int tests;
+  final int? tests;
 
   /// Number of people tested for every 1 million people
-  final double testsPerOneMilllion;
+  final double? testsPerOneMilllion;
 
   /// Total number of people on earth
-  final int population;
+  final int? population;
 
   /// Active cases for every 1 million people
-  final double activePerOneMillion;
+  final double? activePerOneMillion;
 
   /// Number of recovered people for every 1 million people
-  final double recoveredPerOneMillion;
+  final double? recoveredPerOneMillion;
 
   /// Number of people people on critical stated for every 1 million people.
-  final double criticalPerOneMillion;
+  final double? criticalPerOneMillion;
 
   /// Number of countries affected by the COVID-19 pandemic
-  final int affectedCountries;
+  final int? affectedCountries;
 
   @override
   String toString() => 'Overview($updated)';

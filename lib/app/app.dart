@@ -1,4 +1,6 @@
 import 'package:covid19_repository/covid19_repository.dart';
+import 'package:covid_tracker/core/cubit/countries_stats_cubit.dart';
+import 'package:covid_tracker/core/cubit/global_stats_cubit.dart';
 import 'package:covid_tracker/core/cubit/theme_cubit.dart';
 import 'package:covid_tracker/home/view/home_page.dart';
 import 'package:covid_tracker/l10n/l10n.dart';
@@ -30,9 +32,18 @@ class AppRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final covid19repository = context.watch<Covid19Repository>();
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(
+          create: (_) => GlobalStatsCubit(covid19repository: covid19repository)
+            ..getOverview(),
+        ),
+        BlocProvider(
+          create: (_) =>
+              CountriesStatsCubit(covid19repository: covid19repository),
+        ),
       ],
       child: const AppView(),
     );

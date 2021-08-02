@@ -44,13 +44,13 @@ CountryInfo _$CountryInfoFromJson(Map<String, dynamic> json) {
     lat: (json['lat'] as num).toDouble(),
     long: (json['long'] as num).toDouble(),
     flag: json['flag'] as String,
-    id: json['_id'] as int,
+    id: json['id'] as int,
   );
 }
 
 Map<String, dynamic> _$CountryInfoToJson(CountryInfo instance) =>
     <String, dynamic>{
-      '_id': instance.id,
+      'id': instance.id,
       'iso2': instance.iso2,
       'iso3': instance.iso3,
       'lat': instance.lat,

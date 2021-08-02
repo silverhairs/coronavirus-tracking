@@ -9,10 +9,12 @@ class AwesomeColors {
   static const ember = Color(0xffffdd57);
   static const dark = Color(0xff363636);
   static const light = Color(0xfff5f5f5);
+  static const white = Color(0xffffffff);
   static const blue = Color(0xff209cee);
   static const red = Color(0xffff3860);
   static const green = Color(0xff23d160);
   static const teal = Color(0xff00d1b2);
+  static const darkBlue = Color(0xff1c1b32);
 }
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -22,3 +24,9 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
 ThemeData lightTheme = ThemeData.light().copyWith(
   scaffoldBackgroundColor: AwesomeColors.light,
 );
+
+/// Maximum screen Height
+double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;
+
+/// Maximum screen Width
+double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;

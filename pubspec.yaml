@@ -20,6 +20,7 @@ dependencies:
   flutter_bloc: ^7.1.0
   flutter_hooks: ^0.18.0
   flutter_remix: ^0.0.3
+  flutter_spinkit: ^5.0.0
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   intl: ^0.17.0

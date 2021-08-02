@@ -1,11 +1,12 @@
+import 'package:covid_tracker/core/cubit/global_stats_cubit.dart';
 import 'package:covid_tracker/core/cubit/theme_cubit.dart';
 import 'package:covid_tracker/core/utils/styles.dart';
+import 'package:covid_tracker/home/view/widgets/global_stats_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 
-class HomePage extends HookWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   static final route = MaterialPageRoute(builder: (_) => const HomePage());
@@ -13,36 +14,9 @@ class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final themeCubit = context.watch<ThemeCubit>();
-    final currentScreenIndex = useState(0);
+    final globalStatsCubit = context.watch<GlobalStatsCubit>();
 
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentScreenIndex.value,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(FlutterRemix.global_line),
-            label: 'Global',
-            activeIcon: Icon(FlutterRemix.global_fill),
-            tooltip: 'Global',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FlutterRemix.list_unordered),
-            label: 'Countries',
-            activeIcon: Icon(FlutterRemix.list_unordered),
-            tooltip: 'Countries',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FlutterRemix.star_line),
-            label: 'Tracking List',
-            tooltip: 'Tracking List',
-            activeIcon: Icon(FlutterRemix.star_fill),
-          )
-        ],
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) => currentScreenIndex.value = index,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-      ),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -71,26 +45,30 @@ class HomePage extends HookWidget {
             icon: themeCubit.state.status == ThemeStatus.light
                 ? const Icon(FlutterRemix.moon_fill, color: AwesomeColors.dark)
                 : const Icon(FlutterRemix.sun_fill, color: AwesomeColors.ember),
-          )
+          ),
+          IconButton(
+            onPressed: globalStatsCubit.getOverview,
+            icon: Icon(FlutterRemix.restart_line,
+                color: themeCubit.state.status == ThemeStatus.light
+                    ? AwesomeColors.dark
+                    : AwesomeColors.light),
+          ),
         ],
       ),
-      body: const _Content(),
-    );
-  }
-}
-
-class _Content extends StatelessWidget {
-  const _Content({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: const [
+            Flexible(
+              fit: FlexFit.tight,
+              child: SizedBox(
+                height: 250,
+                child: GlobalStatsGrid(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
