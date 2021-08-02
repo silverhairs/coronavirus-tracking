@@ -9,7 +9,7 @@ void main() {
 
     test('has concise toString', () {
       expect(
-        Country(
+        const Country(
           countryInfo: CountryInfo.empty,
           updated: 0,
           country: 'Rwanda',
@@ -25,7 +25,7 @@ void main() {
 
       test('has concise toString', () {
         expect(
-          CountryInfo(flag: '', iso2: 'AB', iso3: 'ABC', lat: 0, long: 0)
+          const CountryInfo(flag: '', iso2: 'AB', iso3: 'ABC', lat: 0, long: 0)
               .toString(),
           equals('CountryInfo(AB, ABC)'),
         );

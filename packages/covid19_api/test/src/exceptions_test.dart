@@ -4,12 +4,12 @@ import 'package:test/test.dart';
 void main() {
   group('HttpException', () {
     test('returns constructor normally', () {
-      expect(() => HttpException(), returnsNormally);
+      expect(() => const HttpException(), returnsNormally);
     });
 
     test('has concise toString', () {
       expect(
-        HttpException('Failed').toString(),
+        const HttpException('Failed').toString(),
         equals('HttpException(Failed)'),
       );
     });
@@ -17,12 +17,12 @@ void main() {
 
   group('HttpRequestFailure', () {
     test('returns constructor normally', () {
-      expect(() => HttpRequestFailure(404), returnsNormally);
+      expect(() => const HttpRequestFailure(404), returnsNormally);
     });
 
     test('has concise toString', () {
       expect(
-        HttpRequestFailure(404, 'Oops').toString(),
+        const HttpRequestFailure(404, 'Oops').toString(),
         equals('HttpRequestFailure(Oops)'),
       );
     });
@@ -30,12 +30,12 @@ void main() {
 
   group('JsonDecodeException', () {
     test('returns constructor normally', () {
-      expect(() => JsonDecodeException(), returnsNormally);
+      expect(() => const JsonDecodeException(), returnsNormally);
     });
 
     test('has concise toString', () {
       expect(
-        JsonDecodeException('failed').toString(),
+        const JsonDecodeException('failed').toString(),
         equals('JsonDecodeException(failed)'),
       );
     });
@@ -43,12 +43,12 @@ void main() {
 
   group('JsonDeserializeException', () {
     test('returns constructor normallt', () {
-      expect(() => JsonDeserializeException(), returnsNormally);
+      expect(() => const JsonDeserializeException(), returnsNormally);
     });
 
     test('has concise toString', () {
       expect(
-        JsonDeserializeException('failed').toString(),
+        const JsonDeserializeException('failed').toString(),
         equals('JsonDeserializeException(failed)'),
       );
     });

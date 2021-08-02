@@ -19,7 +19,7 @@ void main() {
       ),
     );
 
-    final overview = Overview(
+    const overview = Overview(
       updated: 045435,
       active: 323,
       activePerOneMillion: 23423,

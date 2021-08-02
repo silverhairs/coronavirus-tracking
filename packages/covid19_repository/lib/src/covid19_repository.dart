@@ -13,7 +13,7 @@ class Covid19Repository {
     try {
       return _covid19client.getCountries();
     } on Exception {
-      throw CountryException();
+      throw const CountryException();
     }
   }
 
@@ -22,7 +22,7 @@ class Covid19Repository {
     try {
       return _covid19client.getOverview();
     } on Exception {
-      throw OverviewException();
+      throw const OverviewException();
     }
   }
 }

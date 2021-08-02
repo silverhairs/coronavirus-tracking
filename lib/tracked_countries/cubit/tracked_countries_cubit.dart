@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:covid19_api/covid19_api.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'tracked_countries_state.dart';
@@ -42,7 +41,6 @@ void _saveCountryToLocalStorage(Country country) {
   }
 }
 
-@visibleForTesting
 void _deleteFromLocalStorage(Country country) {
   if (_trackedCountriesBox.keys.contains(country.country)) {
     _trackedCountriesBox.delete(country.country);

@@ -14,7 +14,7 @@ void main() {
     late http.Client httpClient;
     late Covid19Client covid19Client;
 
-    final overview = const Overview(
+    const overview = Overview(
       updated: 0,
       active: 2,
       activePerOneMillion: 4,
@@ -107,8 +107,8 @@ void main() {
       });
 
       test(
-          'throws a JsonDeserializeException when failed to deserialize response body',
-          () {
+          'throws a JsonDeserializeException when failed to deserialize '
+          'response body', () {
         when(() => httpClient.get(any())).thenAnswer(
           (_) async => http.Response('{"neo":"Gimme the red pill!"}', 200),
         );
@@ -169,8 +169,8 @@ void main() {
       });
 
       test(
-          'throws a JsonDeserializeException when failed to deserialize response body',
-          () {
+          'throws a JsonDeserializeException when failed to deserialize '
+          'response body', () {
         when(() => httpClient.get(any())).thenAnswer(
           (_) async => http.Response('{"trinity":"Gimme the blue pill!"}', 200),
         );

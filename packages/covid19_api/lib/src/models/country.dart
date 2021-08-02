@@ -76,7 +76,7 @@ class Country extends Equatable {
       ];
 
   /// Creates an empty instance of [Country]
-  static final empty = Country(
+  static const empty = Country(
     countryInfo: CountryInfo(
       flag: '',
       lat: 0.0,
@@ -136,7 +136,7 @@ class CountryInfo extends Equatable {
       _$CountryInfoFromJson(json);
 
   /// Generate an empty instance of [CountryInfo]
-  static final empty = CountryInfo(lat: 0.0, long: 0.0, flag: '');
+  static const empty = CountryInfo(lat: 0.0, long: 0.0, flag: '');
   bool get isEmpty => this == empty;
   bool get isNotEmpty => this != empty;
 }
